@@ -1,0 +1,27 @@
+# Preset 1 — Personal picks (the "actually install these on MY machine" list)
+# Not the full bench checklist, not the whole gaming stack — just what you reach for
+# every time you wipe a drive. Run Preset 2 or 3 first if the box is fresh.
+# Edit via WinGet menu:  W -> P -> E1
+
+# --- Browser (you've tried the others — you always come back to this) ---
+Winget\Apps\Browsers\Winget-Install-Chrome.bat
+
+# --- Communication (Discord for the squad, Telegram for everything else) ---
+Winget\Apps\Communication\Winget-Install-Discord.bat
+Winget\Apps\Communication\Winget-Install-Telegram.bat
+
+# --- Gaming (one launcher to rule the backlog you'll never finish) ---
+Winget\Apps\GameLaunchers\Winget-Install-Steam.bat
+
+# --- Media (record the moment, play anything without thinking) ---
+Winget\Apps\Media\Winget-Install-OBS.bat
+Winget\Apps\Media\Winget-Install-VLC.bat
+
+# --- Text & configs (.ini edits at midnight — we've all been there) ---
+Winget\Apps\Productivity\Winget-Install-NotepadPlusPlus.bat
+
+# --- Utilities (archives, temps, and nuking software that deserved it) ---
+Winget\Apps\Utility\Winget-Install-7Zip.bat
+Winget\Apps\Utility\Winget-Install-MSIAfterburner.bat
+Winget\Apps\Utility\Winget-Install-RevoUninstaller.bat
+Winget\Apps\Utility\Winget-Install-WinRAR.bat

@@ -1,0 +1,50 @@
+DISKPART - QUICK GUIDE
+======================
+
+DiskPart is a command-line tool for managing disks, partitions, and
+volumes. You need Administrator rights. Wrong commands can erase data.
+
+
+BEFORE YOU START
+----------------
+  - Back up anything important on the drive you touch.
+  - Double-check disk numbers with LIST DISK (shown when this tool starts).
+  - Disk 0 is often your system drive -- do not clean/format it by mistake.
+
+
+COMMON COMMANDS
+---------------
+  HELP                  Show all commands
+  LIST DISK             All physical disks (note Disk ###)
+  LIST PARTITION        Partitions on the selected disk
+  LIST VOLUME           All volumes (drive letters and sizes)
+  SELECT DISK 1         Target a disk (replace 1 with your disk number)
+  SELECT PARTITION 1    Target a partition on that disk
+  SELECT VOLUME D       Target a volume by letter or number
+  DETAIL DISK           Info about the selected disk
+  DETAIL PARTITION      Info about the selected partition
+  EXIT                  Leave DiskPart
+
+
+TYPICAL WORKFLOW (new USB drive)
+--------------------------------
+  LIST DISK
+  SELECT DISK 2          (example -- use YOUR disk number)
+  CLEAN                  (wipes partition table -- ALL DATA LOST)
+  CREATE PARTITION PRIMARY
+  FORMAT FS=NTFS QUICK LABEL=USB
+  ASSIGN                 (gives a drive letter)
+  EXIT
+
+
+DANGEROUS COMMANDS (read twice)
+--------------------------------
+  CLEAN / CLEAN ALL      Removes partition info or securely wipes disk
+  DELETE PARTITION       Removes a partition
+  FORMAT                 Erases a volume
+
+
+MORE HELP
+---------
+  In DiskPart:  HELP <command>     e.g.  HELP CREATE PARTITION
+  Microsoft docs: search "DiskPart commands"

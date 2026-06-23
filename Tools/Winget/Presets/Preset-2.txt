@@ -1,0 +1,45 @@
+# Preset 2 — New PC baseline (install on every machine)
+# The list you run before you hand the keyboard back and say "you're good to go."
+# Windows Update first, then this. Gaming rig → Preset 3. Your personal stuff → Preset 1.
+# Edit via WinGet menu:  W -> P -> E2
+
+# --- 1. Runtimes (skip these and the phone rings in a week) ---
+Winget\Apps\Runtimes\Winget-Install-VCRedist.bat
+Winget\Apps\Runtimes\Winget-Install-WebView2.bat
+Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-6.bat
+Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-8.bat
+Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-9.bat
+Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-10.bat
+Winget\Apps\Runtimes\Winget-Install-PowerShell-7.bat
+
+# --- 2. Browser (they'll ask for Chrome by name — just install it) ---
+Winget\Apps\Browsers\Winget-Install-Chrome.bat
+
+# --- 3. Debloat (McAfee trials and Candy Crush are not features) ---
+Winget\Apps\Utility\Winget-Install-BulkCrapUninstaller.bat
+Winget\Apps\Utility\Winget-Install-RevoUninstaller.bat
+
+# --- 4. Drivers (after Windows Update — yes, really after) ---
+Winget\Apps\Drivers\Winget-Install-SnappyDriverInstaller.bat
+
+# --- 5. Office & documents (LibreOffice saves the "where's Word?" call) ---
+Winget\Apps\Productivity\Winget-Install-LibreOffice.bat
+Winget\Apps\Productivity\Winget-Install-NotepadPlusPlus.bat
+
+# --- 6. Media (one player that plays everything — no codec pack hunt) ---
+Winget\Apps\Media\Winget-Install-VLC.bat
+
+# --- 7. File tools (they will download a .zip and a .rar same day) ---
+Winget\Apps\Utility\Winget-Install-7Zip.bat
+Winget\Apps\Utility\Winget-Install-WinRAR.bat
+
+# --- 8. Windows power tools (FancyZones beats explaining snap layouts) ---
+Winget\Apps\Utility\Winget-Install-PowerToys.bat
+
+# --- 9. Remote-fix toolkit (for when you're on the phone walking them through it) ---
+Winget\Apps\DevTools\Winget-Install-Git.bat
+Winget\Apps\DevTools\Winget-Install-VSCode.bat
+Winget\Apps\Languages\Winget-Install-Python.bat
+
+# --- 10. Communication (lighter than Discord, works for Aunt Linda too) ---
+Winget\Apps\Communication\Winget-Install-Telegram.bat
