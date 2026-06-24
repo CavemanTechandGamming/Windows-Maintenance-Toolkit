@@ -36,6 +36,26 @@ The project is designed for practical bench work: clear menus, administrator ele
 
 No installation step is required. The toolkit runs in place; session logs are written to `Logs\` relative to the launcher directory.
 
+## Screenshots
+
+Main menu → WinGet manager → Install Apps catalog → preset bundles.
+
+### Main menu
+
+![Main maintenance menu](docs/screenshots/01-main-menu.png)
+
+### WinGet manager
+
+![WinGet manager menu](docs/screenshots/02-winget-menu.png)
+
+### Install Apps
+
+![Install Apps catalog — 102 packages on one screen](docs/screenshots/03-install-apps.png)
+
+### Preset bundles
+
+![Preset bundles menu](docs/screenshots/04-preset-menu.png)
+
 ## Main Menu Reference
 
 ### System Repair
@@ -109,6 +129,8 @@ Edit presets from the WinGet menu (**`P` → `E1`–`E4`**) or directly in any t
 MaintenanceLauncher.bat          # Main entry point
 README.md
 CONTRIBUTING.md                  # How to contribute (apps, PRs, dev setup)
+docs/
+└── screenshots/                   # README images (01-main-menu.png, etc.)
 Tools/
 ├── Repair/                        # DISM, SFC
 ├── Disk/                          # CHKDSK, Disk Cleanup, DiskPart
