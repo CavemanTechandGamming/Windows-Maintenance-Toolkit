@@ -12,13 +12,8 @@ Logs/
 # Internal development wishlist (local tracking only)
 Install-Wishlist.md
 
-# Legacy root scripts (superseded by MaintenanceLauncher.bat and Tools\)
-/Smart*.bat
-/EnsureWingetUpToDate.bat
-/WingetUpgradeAll.bat
-/CTTWindowsUltimateUtility.bat
-/FullSystemIntegrityRepair.bat
-/windowes check and repair.bat
+# Legacy scripts (superseded by MaintenanceLauncher.bat and Tools\)
+Legacy Cleanup/
 
 # Windows / editor noise
 Thumbs.db

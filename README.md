@@ -81,7 +81,7 @@ Access from the main menu with **`W`**.
 | `1`–`3` | Install, verify/update, or reinstall WinGet |
 | `4`–`7` | List upgradable/installed packages, search, upgrade all |
 | `P` | Preset bundles (install or edit Presets 1–4) |
-| `I` | Install Apps — 13 categories, 102 WinGet install scripts |
+| `I` | Install Apps — single-screen list of all 102 WinGet install scripts (numbered 1–102) |
 | `L` | Open WinGet diagnostic log folder |
 | `B` / `Q` | Back or quit |
 
@@ -144,7 +144,7 @@ WinGet operations write start/finish markers only; live WinGet output is shown i
 
 - **Single elevation:** Administrator rights are requested once at startup; child scripts inherit elevation.
 - **Sequences:** Multi-step runs set `MAINT_NO_PAUSE=1` so steps execute without intermediate prompts.
-- **Console layout:** Most menus use a fixed 100×65 console with locked buffer height. Install Apps uses a category hub plus submenus so everything fits without a tall console.
+- **Console layout:** Fixed 140×65 console with locked buffer height on every menu screen; banners and rules use the same width.
 
 ## Disclaimer
 

@@ -213,22 +213,57 @@ Remove-Item -LiteralPath $Stage -Recurse -Force
 
 Write-Host "Created $($Apps.Count) install scripts in new folder layout."
 
-Write-Host "Created $($Apps.Count) install scripts in new folder layout."
+# --- Install Apps menu layout (single screen, wide console) ---
+$AppsMenuCols = 140
+$MenuColumns = 4
+$ColWidth = 32
+$InnerWidth = $AppsMenuCols - 5
 
-# Box-drawing chars (avoid embedding Unicode in .ps1 source)
 $_SectDash = -join (1..2 | ForEach-Object { [char]0x2500 })
-$_RuleDash = -join (1..86 | ForEach-Object { [char]0x2500 })
-$_DblDash  = -join (1..86 | ForEach-Object { [char]0x2550 })
+$_BoxH = [char]0x2550
+$_BoxVL = [char]0x2551
+$_BoxTL = [char]0x2554
+$_BoxTR = [char]0x2557
+$_BoxBL = [char]0x255A
+$_BoxBR = [char]0x255D
+$_RuleDash = -join (1..$InnerWidth | ForEach-Object { [char]0x2500 })
+
 function Sect-Line { param($Text) "echo   %GOLD%$_SectDash $Text $_SectDash%RESET%" }
 function Rule-Line { "echo   %GOLD%$_RuleDash%RESET%" }
-function Dbl-Line  { "echo   %GOLD%$_DblDash%RESET%" }
 
-# --- Menu helpers (original 2-column style) ---
-function Format-MenuPair {
-    param($LeftNum, $LeftName, $RightNum, $RightName)
-    $ln = if ($LeftNum) { "     %GOLD%[$('{0,2}' -f $LeftNum)]%RESET%  $($LeftName.PadRight(26))" } else { (' ' * 39) }
-    $rn = if ($RightNum) { " %GOLD%[$('{0,2}' -f $RightNum)]%RESET%  $RightName" } else { '' }
-    "echo   $ln$rn"
+function Format-MenuCell {
+    param($Num, $Name)
+    if (-not $Num) { return (' ' * $ColWidth) }
+    $nameWidth = $ColWidth - 7
+    $label = $Name
+    if ($label.Length -gt $nameWidth) { $label = $label.Substring(0, $nameWidth - 1) + '.' }
+    else { $label = $label.PadRight($nameWidth) }
+    "%GOLD%[$('{0,3}' -f $Num)]%RESET%  $label"
+}
+
+function Format-MenuRow4 {
+    param($Cells)
+    $parts = @()
+    for ($i = 0; $i -lt $MenuColumns; $i++) {
+        $c = if ($i -lt $Cells.Count) { $Cells[$i] } else { $null }
+        if ($c) { $parts += (Format-MenuCell $c.Num $c.Name) } else { $parts += (' ' * $ColWidth) }
+    }
+    "echo        $($parts -join ' ')"
+}
+
+function Get-CenteredTitleLine {
+    param([string]$Title)
+    $t = $Title
+    $pad = $InnerWidth - $t.Length
+    $left = [Math]::Floor($pad / 2)
+    $right = $pad - $left
+    "echo   %GOLD%$_BoxVL$(' ' * $left)$t$(' ' * $right)$_BoxVL%RESET%"
+}
+
+function Get-BoxBorderLine {
+    param([char]$Left, [char]$Right)
+    $fill = -join (1..$InnerWidth | ForEach-Object { $_BoxH })
+    "echo   %GOLD%$Left$fill$Right%RESET%"
 }
 
 function Get-CategoryMenuHeader {
@@ -259,139 +294,45 @@ foreach ($cat in $Categories) {
     $catApps[$cat.Key] = $list
 }
 
+$globalItems = New-Object System.Collections.Generic.List[object]
 $seqAllCalls = New-Object System.Collections.Generic.List[string]
-$seqSubs = New-Object System.Collections.Generic.List[string]
-$catMenuFragments = New-Object System.Collections.Generic.List[string]
+$menuLines = New-Object System.Collections.Generic.List[string]
+$choiceLines = New-Object System.Collections.Generic.List[string]
 
+$globalNum = 1
 foreach ($cat in $Categories) {
     $list = $catApps[$cat.Key]
     if (-not $list -or $list.Count -eq 0) { continue }
-    $items = foreach ($a in $list) {
-        [PSCustomObject]@{
-            RelPath = "Winget\Apps\$($a.F)\Winget-Install-$($a.B).bat"
-            Display = $a.N
-            Base = $a.B
-        }
-    }
-
-    $seqName = "SeqInstall$($cat.Key)"
     $label = Get-CategoryMenuHeader $cat
-    $allText = $cat.AllLabel -replace '&','^&'
+    [void]$menuLines.Add((Sect-Line $label))
 
-    # Per-category submenu with local numbering (A-Z), Install ALL last when 2+ apps
-    $local = New-Object System.Collections.Generic.List[object]
-    $n = 1
-    foreach ($it in $items) {
-        $local.Add([PSCustomObject]@{ Num = $n++; Type = 'APP'; Item = $it })
-    }
-    $seqNum = $null
-    if ($list.Count -ge 2) {
-        $seqNum = $n++
-        $local.Add([PSCustomObject]@{ Num = $seqNum; Type = 'SEQ'; Item = $null })
-    }
-
-    $cm = New-Object System.Collections.Generic.List[string]
-    [void]$cm.Add("")
-    [void]$cm.Add(":AppsCat$($cat.Key)")
-    [void]$cm.Add(":AppsCat$($cat.Key)Loop")
-    [void]$cm.Add("call :SetConsoleSize 65 LOCK")
-    [void]$cm.Add("cls")
-    [void]$cm.Add('powershell -NoProfile -Command "try { [Console]::SetCursorPosition(0,0) } catch {}" >nul 2>&1')
-    [void]$cm.Add("echo.")
-    [void]$cm.Add((Sect-Line $label))
-    $idx = 0
-    while ($idx -lt $local.Count) {
-        $left = $local[$idx]
-        $right = if ($idx + 1 -lt $local.Count) { $local[$idx + 1] } else { $null }
-        $lName = if ($left.Type -eq 'SEQ') { "Install ALL $allText" } else { $left.Item.Display }
-        $rName = if ($right) { if ($right.Type -eq 'SEQ') { "Install ALL $allText" } else { $right.Item.Display } } else { $null }
-        $rNum = if ($right) { $right.Num } else { $null }
-        [void]$cm.Add((Format-MenuPair $left.Num $lName $rNum $rName))
-        $idx += 2
-    }
-    [void]$cm.Add("echo.")
-    [void]$cm.Add((Sect-Line 'NAVIGATION') + '  %GOLD%[B]%RESET% Categories   %GOLD%[Q]%RESET% Quit')
-    [void]$cm.Add((Rule-Line))
-    [void]$cm.Add("echo.")
-    [void]$cm.Add('set "choice="')
-    [void]$cm.Add('set /p "choice=   %GOLD%Select option:%RESET%  "')
-    [void]$cm.Add("if not defined choice goto AppsCat$($cat.Key)Loop")
-    [void]$cm.Add('if /i "%choice%"=="B" goto AppsLoop')
-    [void]$cm.Add('if /i "%choice%"=="Q" set "_QUIT=1" & goto :eof')
-    if ($seqNum) {
-        [void]$cm.Add("if /i `"%choice%`"==`"$seqNum`" call :$seqName & goto AppsCat$($cat.Key)Loop")
-    }
-    foreach ($entry in $local) {
-        if ($entry.Type -eq 'APP') {
-            [void]$cm.Add("if /i `"%choice%`"==`"$($entry.Num)`" call :RunOneNoTee `"$($entry.Item.RelPath)`" & goto AppsCat$($cat.Key)Loop")
+    $rowCells = New-Object System.Collections.Generic.List[object]
+    foreach ($a in $list) {
+        $rel = "Winget\Apps\$($a.F)\Winget-Install-$($a.B).bat"
+        $item = [PSCustomObject]@{ Num = $globalNum; Name = $a.N; RelPath = $rel }
+        [void]$globalItems.Add($item)
+        [void]$rowCells.Add($item)
+        [void]$choiceLines.Add("if /i `"%choice%`"==`"$globalNum`" call :RunOneNoTee `"$rel`" & goto AppsLoop")
+        $seqAllCalls.Add(":: $($cat.Key)")
+        $seqAllCalls.Add("call :RunOneNoTee `"$rel`"")
+        $globalNum++
+        if ($rowCells.Count -eq $MenuColumns) {
+            [void]$menuLines.Add((Format-MenuRow4 $rowCells))
+            $rowCells.Clear()
         }
     }
-    [void]$cm.Add("echo.")
-    [void]$cm.Add('echo   Invalid choice: "%choice%"')
-    [void]$cm.Add("echo.")
-    [void]$cm.Add("pause")
-    [void]$cm.Add("goto AppsCat$($cat.Key)Loop")
-    $catMenuFragments.Add(($cm -join "`r`n"))
-
-    # Seq subroutine
-    $sb = New-Object System.Text.StringBuilder
-    [void]$sb.AppendLine("")
-    [void]$sb.AppendLine(":$seqName")
-    [void]$sb.AppendLine("cls")
-    [void]$sb.AppendLine("echo.")
-    [void]$sb.AppendLine((Dbl-Line))
-    [void]$sb.AppendLine("echo                 %GOLD%S E Q U E N C E   :   I N S T A L L   $($label.Replace('^&','&'))%RESET%")
-    [void]$sb.AppendLine((Dbl-Line))
-    [void]$sb.AppendLine("echo.")
-    [void]$sb.AppendLine(">> `"%MAINT_LOG%`" echo.")
-    [void]$sb.AppendLine(">> `"%MAINT_LOG%`" echo ############################################################")
-    [void]$sb.AppendLine(">> `"%MAINT_LOG%`" echo  SEQUENCE: Install $($cat.Key)  -  %DATE% %TIME%")
-    [void]$sb.AppendLine(">> `"%MAINT_LOG%`" echo ############################################################")
-    [void]$sb.AppendLine('set "MAINT_NO_PAUSE=1"')
-    $seqAllCalls.Add(":: $($cat.Key)")
-    foreach ($it in $items) {
-        [void]$sb.AppendLine("call :RunOneNoTee `"$($it.RelPath)`"")
-        $seqAllCalls.Add("call :RunOneNoTee `"$($it.RelPath)`"")
+    if ($rowCells.Count -gt 0) {
+        [void]$menuLines.Add((Format-MenuRow4 $rowCells))
     }
-    [void]$sb.AppendLine('set "MAINT_NO_PAUSE="')
-    [void]$sb.AppendLine("echo.")
-    [void]$sb.AppendLine((Dbl-Line))
-    [void]$sb.AppendLine("echo     %GOLD%$($cat.Key) install sequence complete.%RESET%")
-    [void]$sb.AppendLine((Dbl-Line))
-    [void]$sb.AppendLine("echo.")
-    [void]$sb.AppendLine("pause")
-    [void]$sb.AppendLine("goto :eof")
-    [void]$sb.AppendLine("")
-    $seqSubs.Add($sb.ToString())
 }
 
-# Category hub (:AppsMenu)
+# --- :AppsMenu fragment ---
 $hub = New-Object System.Collections.Generic.List[string]
 [void]$hub.Add('::MENU_BODY_START')
 [void]$hub.Add('echo     %GOLD%Session log:%RESET%  %DIM%%MAINT_LOG%%RESET%')
 [void]$hub.Add('echo     %DIM%WinGet output streams live and is NOT added to the session log.%RESET%')
 [void]$hub.Add('echo.')
-[void]$hub.Add((Sect-Line 'CATEGORIES'))
-$hubNum = 1
-$hubMap = @()
-$hubRows = New-Object System.Collections.Generic.List[object]
-foreach ($cat in $Categories) {
-    $list = $catApps[$cat.Key]
-    if (-not $list -or $list.Count -eq 0) { continue }
-    $hdr = Get-CategoryMenuHeader $cat
-    $hubRows.Add([PSCustomObject]@{ Num = $hubNum; Key = $cat.Key; Label = $hdr; Count = $list.Count })
-    $hubMap += [PSCustomObject]@{ Num = $hubNum++; Key = $cat.Key }
-}
-$hidx = 0
-while ($hidx -lt $hubRows.Count) {
-    $left = $hubRows[$hidx]
-    $right = if ($hidx + 1 -lt $hubRows.Count) { $hubRows[$hidx + 1] } else { $null }
-    $ltxt = $left.Label
-    $rtxt = if ($right) { $right.Label } else { $null }
-    [void]$hub.Add((Format-MenuPair $left.Num $ltxt $(if($right){$right.Num}else{$null}) $rtxt))
-    $hidx += 2
-}
-[void]$hub.Add('echo.')
+foreach ($ml in $menuLines) { [void]$hub.Add($ml) }
 [void]$hub.Add((Sect-Line 'NAVIGATION') + '  %GOLD%[A]%RESET% Install EVERYTHING   %GOLD%[B]%RESET% WinGet menu   %GOLD%[M]%RESET% Main menu   %GOLD%[Q]%RESET% Quit')
 [void]$hub.Add((Rule-Line))
 [void]$hub.Add('echo.')
@@ -405,9 +346,7 @@ while ($hidx -lt $hubRows.Count) {
 [void]$hub.Add('if /i "%choice%"=="Q" set "_QUIT=1" & goto :eof')
 [void]$hub.Add('if /i "%choice%"=="A" call :SeqInstallAllApps & goto AppsLoop')
 [void]$hub.Add('')
-foreach ($hm in $hubMap) {
-    [void]$hub.Add("if /i `"%choice%`"==`"$($hm.Num)`" call :AppsCat$($hm.Key) & if defined _QUIT goto :eof & goto AppsLoop")
-}
+foreach ($cl in $choiceLines) { [void]$hub.Add($cl) }
 [void]$hub.Add('')
 [void]$hub.Add('echo.')
 [void]$hub.Add('echo   Invalid choice: "%choice%"')
@@ -415,11 +354,15 @@ foreach ($hm in $hubMap) {
 [void]$hub.Add('pause')
 [void]$hub.Add('goto AppsLoop')
 
-# SeqInstallAllApps
-$total = ($Apps | Measure-Object).Count
+# SeqInstallAllApps only (per-category Install ALL removed)
+$total = $globalItems.Count
+$DblDash = -join (1..$InnerWidth | ForEach-Object { [char]0x2550 })
+function Dbl-Line { "echo   %GOLD%$DblDash%RESET%" }
+
 $allSb = New-Object System.Text.StringBuilder
 [void]$allSb.AppendLine("")
 [void]$allSb.AppendLine(":SeqInstallAllApps")
+[void]$allSb.AppendLine("call :SetConsoleSize 65 LOCK")
 [void]$allSb.AppendLine("cls")
 [void]$allSb.AppendLine("echo.")
 [void]$allSb.AppendLine((Dbl-Line))
@@ -445,10 +388,14 @@ foreach ($line in $seqAllCalls) { [void]$allSb.AppendLine($line) }
 [void]$allSb.AppendLine("goto :eof")
 [void]$allSb.AppendLine("")
 
-$utf8 = New-Object System.Text.UTF8Encoding $false
-[System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsMenu.fragment.bat'), ($hub -join "`r`n"), $utf8)
-[System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsCategoryMenus.fragment.bat'), ($catMenuFragments -join "`r`n"), $utf8)
-[System.IO.File]::WriteAllText((Join-Path $OutDir 'SeqInstall.fragment.bat'), (($seqSubs -join "`r`n") + $allSb.ToString()), $utf8)
+$banner = @(
+    'echo.'
+    (Get-BoxBorderLine $_BoxTL $_BoxTR)
+    "echo   %GOLD%$_BoxVL$(' ' * $InnerWidth)$_BoxVL%RESET%"
+    (Get-CenteredTitleLine 'I N S T A L L   A P P S   V I A   W I N G E T')
+    "echo   %GOLD%$_BoxVL$(' ' * $InnerWidth)$_BoxVL%RESET%"
+    (Get-BoxBorderLine $_BoxBL $_BoxBR)
+)
 
 $header = @"
 :AppsMenu
@@ -457,7 +404,13 @@ call :SetConsoleSize 65 LOCK
 cls
 powershell -NoProfile -Command "try { [Console]::SetCursorPosition(0,0) } catch {}" >nul 2>&1
 "@
+
+$utf8 = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsMenu.fragment.bat'), ($hub -join "`r`n"), $utf8)
+[System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsCategoryMenus.fragment.bat'), '', $utf8)
+[System.IO.File]::WriteAllText((Join-Path $OutDir 'SeqInstall.fragment.bat'), $allSb.ToString(), $utf8)
 [System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsMenuHeader.fragment.bat'), $header, $utf8)
+[System.IO.File]::WriteAllLines((Join-Path $OutDir 'AppsBanner.fragment.bat'), $banner, $utf8)
 
 Write-Host "Generated fragments in Tools\Winget\_generated\"
-Write-Host "Total apps: $total"
+Write-Host "Total apps: $total (flat menu, ${AppsMenuCols}x65, $MenuColumns columns)"
