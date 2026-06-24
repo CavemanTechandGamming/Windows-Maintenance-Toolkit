@@ -1,0 +1,148 @@
+# Preset Example - how preset bundles work (reference only; not installed from the menu)
+#
+# Presets are plain-text lists of WinGet install script paths. The launcher runs them in
+# order when you choose  W -> P -> [1] through [4].  Edit presets with  W -> P -> E1-E4.
+#
+# RULES
+# -----
+#   * One script path per line, relative to the Tools\ folder (see paths below).
+#   * Lines starting with # are skipped - use for notes AND for apps you do not want yet.
+#   * Blank lines are ignored.
+#   * To ENABLE an app: remove the leading # so the line begins with Winget\
+#   * To DISABLE an app: add # at the very beginning of the line.
+#   * Section headers like "# --- Browsers ---" are comments only.
+#   * Optional: add your own comment lines anywhere (must start with #).
+#   * Do not put comments on the same line as a path - uncommented paths must be path-only.
+#
+# GETTING STARTED
+# ---------------
+#   1. Open Preset-1.txt through Preset-4.txt (or copy from this file into one of them).
+#   2. Uncomment only the apps you want in that bundle (delete # at line start).
+#   3. Save, then run  MaintenanceLauncher.bat  ->  W  ->  P  ->  [1-4].
+#
+# WORKED EXAMPLE - if these three lines were in Preset-1.txt WITHOUT a leading #,
+# the launcher would install Chrome, then VLC, then 7-Zip, in that order:
+#
+#   Winget\Apps\Browsers\Winget-Install-Chrome.bat
+#   Winget\Apps\Media\Winget-Install-VLC.bat
+#   Winget\Apps\SystemTools\Winget-Install-7Zip.bat
+#
+# FULL CATALOG (102 apps) - everything commented out; uncomment what you need
+#
+# --- BROWSERS ---
+# Winget\Apps\Browsers\Winget-Install-Brave.bat
+# Winget\Apps\Browsers\Winget-Install-Chrome.bat
+# Winget\Apps\Browsers\Winget-Install-LibreWolf.bat
+# Winget\Apps\Browsers\Winget-Install-Firefox.bat
+# Winget\Apps\Browsers\Winget-Install-OperaGX.bat
+
+# --- COMMUNICATION ---
+# Winget\Apps\Communication\Winget-Install-Discord.bat
+# Winget\Apps\Communication\Winget-Install-Teams.bat
+# Winget\Apps\Communication\Winget-Install-Thunderbird.bat
+# Winget\Apps\Communication\Winget-Install-Signal.bat
+# Winget\Apps\Communication\Winget-Install-Slack.bat
+# Winget\Apps\Communication\Winget-Install-Telegram.bat
+# Winget\Apps\Communication\Winget-Install-Zoom.bat
+
+# --- DEVELOPER ---
+# Winget\Apps\DevTools\Winget-Install-CMake.bat
+# Winget\Apps\DevTools\Winget-Install-Cursor.bat
+# Winget\Apps\DevTools\Winget-Install-Git.bat
+# Winget\Apps\DevTools\Winget-Install-GitHubDesktop.bat
+# Winget\Apps\DevTools\Winget-Install-IntelliJ.bat
+# Winget\Apps\DevTools\Winget-Install-VSCode.bat
+# Winget\Apps\DevTools\Winget-Install-VSCommunity2022.bat
+# Winget\Apps\DevTools\Winget-Install-VSCommunity2026.bat
+
+# --- GAMES ---
+# Winget\Apps\Games\Winget-Install-BattleNet.bat
+# Winget\Apps\Games\Winget-Install-EADesktop.bat
+# Winget\Apps\Games\Winget-Install-EpicGames.bat
+# Winget\Apps\Games\Winget-Install-GOGGalaxy.bat
+# Winget\Apps\Games\Winget-Install-Itch.bat
+# Winget\Apps\Games\Winget-Install-Moonlight.bat
+# Winget\Apps\Games\Winget-Install-GeForceNow.bat
+# Winget\Apps\Games\Winget-Install-Steam.bat
+# Winget\Apps\Games\Winget-Install-UbisoftConnect.bat
+
+# --- HARDWARE & DIAGNOSTICS ---
+# Winget\Apps\Hardware\Winget-Install-CPU-Z.bat
+# Winget\Apps\Hardware\Winget-Install-CrystalDiskInfo.bat
+# Winget\Apps\Hardware\Winget-Install-CrystalDiskMark.bat
+# Winget\Apps\Hardware\Winget-Install-DisplayDriverUninstaller.bat
+# Winget\Apps\Hardware\Winget-Install-FanControl.bat
+# Winget\Apps\Hardware\Winget-Install-GPU-Z.bat
+# Winget\Apps\Hardware\Winget-Install-HWiNFO.bat
+# Winget\Apps\Hardware\Winget-Install-HWMonitor.bat
+# Winget\Apps\Hardware\Winget-Install-MSIAfterburner.bat
+# Winget\Apps\Hardware\Winget-Install-OpenRGB.bat
+# Winget\Apps\Hardware\Winget-Install-SnappyDriverInstaller.bat
+
+# --- LANGUAGES ---
+# Winget\Apps\Languages\Winget-Install-Go.bat
+# Winget\Apps\Languages\Winget-Install-OpenJDK-21.bat
+# Winget\Apps\Languages\Winget-Install-OpenJDK-25.bat
+# Winget\Apps\Languages\Winget-Install-NodeJS-Current.bat
+# Winget\Apps\Languages\Winget-Install-NodeJS-LTS.bat
+# Winget\Apps\Languages\Winget-Install-Python.bat
+# Winget\Apps\Languages\Winget-Install-Rust.bat
+
+# --- MEDIA ---
+# Winget\Apps\Media\Winget-Install-AIMP.bat
+# Winget\Apps\Media\Winget-Install-Blender.bat
+# Winget\Apps\Media\Winget-Install-HandBrake.bat
+# Winget\Apps\Media\Winget-Install-JellyfinMediaPlayer.bat
+# Winget\Apps\Media\Winget-Install-JellyfinServer.bat
+# Winget\Apps\Media\Winget-Install-OBS.bat
+# Winget\Apps\Media\Winget-Install-PlexDesktop.bat
+# Winget\Apps\Media\Winget-Install-PlexMediaServer.bat
+# Winget\Apps\Media\Winget-Install-VLC.bat
+
+# --- NETWORK & REMOTE ---
+# Winget\Apps\NetworkRemote\Winget-Install-Nmap.bat
+# Winget\Apps\NetworkRemote\Winget-Install-PuTTY.bat
+# Winget\Apps\NetworkRemote\Winget-Install-Tailscale.bat
+# Winget\Apps\NetworkRemote\Winget-Install-WinSCP.bat
+# Winget\Apps\NetworkRemote\Winget-Install-WireGuard.bat
+# Winget\Apps\NetworkRemote\Winget-Install-Wireshark.bat
+
+# --- OFFICE & DOCUMENTS ---
+# Winget\Apps\Office\Winget-Install-Audacity.bat
+# Winget\Apps\Office\Winget-Install-GIMP.bat
+# Winget\Apps\Office\Winget-Install-Inkscape.bat
+# Winget\Apps\Office\Winget-Install-Krita.bat
+# Winget\Apps\Office\Winget-Install-LibreOffice.bat
+# Winget\Apps\Office\Winget-Install-NotepadPlusPlus.bat
+# Winget\Apps\Office\Winget-Install-PaintDotNet.bat
+# Winget\Apps\Office\Winget-Install-SumatraPDF.bat
+
+# --- RUNTIMES & FRAMEWORKS ---
+# Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-10.bat
+# Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-6.bat
+# Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-8.bat
+# Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-9.bat
+# Winget\Apps\Runtimes\Winget-Install-PowerShell-7.bat
+# Winget\Apps\Runtimes\Winget-Install-VCRedist.bat
+# Winget\Apps\Runtimes\Winget-Install-WebView2.bat
+
+# --- SECURITY & PRIVACY ---
+# Winget\Apps\Security\Winget-Install-Bitwarden.bat
+# Winget\Apps\Security\Winget-Install-KeePass.bat
+# Winget\Apps\Security\Winget-Install-Malwarebytes.bat
+
+# --- SYSTEM TOOLS ---
+# Winget\Apps\SystemTools\Winget-Install-7Zip.bat
+# Winget\Apps\SystemTools\Winget-Install-Autoruns.bat
+# Winget\Apps\SystemTools\Winget-Install-BalenaEtcher.bat
+# Winget\Apps\SystemTools\Winget-Install-BulkCrapUninstaller.bat
+# Winget\Apps\SystemTools\Winget-Install-PowerToys.bat
+# Winget\Apps\SystemTools\Winget-Install-ProcessExplorer.bat
+# Winget\Apps\SystemTools\Winget-Install-qBittorrent.bat
+# Winget\Apps\SystemTools\Winget-Install-Rainmeter.bat
+# Winget\Apps\SystemTools\Winget-Install-RevoUninstaller.bat
+# Winget\Apps\SystemTools\Winget-Install-Rufus.bat
+# Winget\Apps\SystemTools\Winget-Install-ShareX.bat
+# Winget\Apps\SystemTools\Winget-Install-Ventoy.bat
+# Winget\Apps\SystemTools\Winget-Install-WinRAR.bat
+# Winget\Apps\SystemTools\Winget-Install-WizTree.bat

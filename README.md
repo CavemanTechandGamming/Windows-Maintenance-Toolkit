@@ -17,7 +17,7 @@ The project is designed for practical bench work: clear menus, administrator ele
 | **Cleanup** | Temp files, Windows Update cache, Recycle Bin, WinSxS component store cleanup |
 | **Network** | DNS flush/renew/register, ARP cache clear, Winsock and TCP/IP stack reset, IP configuration display |
 | **Sequences** | One-key repair, cleanup, network refresh, and full maintenance chains |
-| **WinGet manager** | Install or repair WinGet, list/search/upgrade packages, browse 55 curated install scripts |
+| **WinGet manager** | Install or repair WinGet, list/search/upgrade packages, browse 102 curated install scripts |
 | **Preset bundles** | Four editable text-based presets for batch software deployment |
 | **Logging** | Per-session maintenance log with computer name, user, and timestamps |
 
@@ -81,7 +81,7 @@ Access from the main menu with **`W`**.
 | `1`–`3` | Install, verify/update, or reinstall WinGet |
 | `4`–`7` | List upgradable/installed packages, search, upgrade all |
 | `P` | Preset bundles (install or edit Presets 1–4) |
-| `I` | Install Apps — categorized menu of 55 WinGet install scripts |
+| `I` | Install Apps — single-screen list of all 102 WinGet install scripts (numbered 1–102) |
 | `L` | Open WinGet diagnostic log folder |
 | `B` / `Q` | Back or quit |
 
@@ -89,7 +89,7 @@ WinGet install scripts run with live terminal output (not piped through the sess
 
 ## Install Presets
 
-Four preset bundle files live in `Tools\Winget\Presets\`:
+Four editable preset bundle files live in `Tools\Winget\Presets\`:
 
 | File | Intended use |
 |------|----------------|
@@ -97,14 +97,18 @@ Four preset bundle files live in `Tools\Winget\Presets\`:
 | `Preset-2.txt` | New PC baseline (bench-tech checklist) |
 | `Preset-3.txt` | Gaming PC setup |
 | `Preset-4.txt` | Home lab / power-user stack |
+| `Preset-Example.txt` | **Reference** — all 102 apps listed and commented out; explains how to enable lines |
 
-Each file lists one install script path per line, relative to `Tools\`. Lines beginning with `#` and blank lines are ignored. Edit presets from the WinGet menu (**`P` → `E1`–`E4`**) or directly in any text editor.
+Each file lists one install script path per line, relative to `Tools\`. Lines beginning with `#` and blank lines are ignored. To include an app, remove the leading `#` so the line starts with `Winget\`. See `Preset-Example.txt` for the full catalog and step-by-step instructions.
+
+Edit presets from the WinGet menu (**`P` → `E1`–`E4`**) or directly in any text editor.
 
 ## Repository Structure
 
 ```
 MaintenanceLauncher.bat          # Main entry point
 README.md
+CONTRIBUTING.md                  # How to contribute (apps, PRs, dev setup)
 Tools/
 ├── Repair/                        # DISM, SFC
 ├── Disk/                          # CHKDSK, Disk Cleanup, DiskPart
@@ -112,18 +116,22 @@ Tools/
 ├── Network/                       # DNS, IP, Winsock, TCP/IP tools
 └── Winget/
     ├── Winget-*.bat               # WinGet core operations
-    ├── Presets/                   # Preset-1.txt … Preset-4.txt
+    ├── dev/                       # Maintainer scripts (committed; see CONTRIBUTING.md)
+    ├── Presets/                   # Preset-1.txt … Preset-4.txt, Preset-Example.txt
     └── Apps/
         ├── Browsers/
         ├── Communication/
         ├── DevTools/
-        ├── Drivers/
-        ├── GameLaunchers/
+        ├── Games/
+        ├── Hardware/
         ├── Languages/
         ├── Media/
-        ├── Productivity/
+        ├── NetworkRemote/
+        ├── Office/
         ├── Runtimes/
-        └── Utility/
+        ├── Security/
+        ├── SystemTools/
+        └── Virtualization/
 Logs/                              # Created at runtime (not committed)
 ```
 
@@ -141,7 +149,7 @@ WinGet operations write start/finish markers only; live WinGet output is shown i
 
 - **Single elevation:** Administrator rights are requested once at startup; child scripts inherit elevation.
 - **Sequences:** Multi-step runs set `MAINT_NO_PAUSE=1` so steps execute without intermediate prompts.
-- **Console layout:** Menus use a fixed 100×65 console with locked buffer height for consistent display.
+- **Console layout:** Fixed 140×65 console with locked buffer height on every menu screen; banners and rules use the same width.
 
 ## Disclaimer
 
@@ -149,4 +157,6 @@ This toolkit runs powerful system commands (DISM, SFC, CHKDSK, DiskPart, network
 
 ## Contributing
 
-Issues and pull requests are welcome. When adding WinGet applications, follow the existing script naming convention (`Winget-Install-<Name>.bat`) and update `MaintenanceLauncher.bat` menu entries to match.
+Issues and pull requests are welcome. See **[CONTRIBUTING.md](CONTRIBUTING.md)** for what belongs on GitHub, pull request guidelines, and how to add WinGet apps.
+
+Technical script reference: **[Tools\Winget\dev\README.md](Tools/Winget/dev/README.md)**.
