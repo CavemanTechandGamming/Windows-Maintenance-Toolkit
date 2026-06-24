@@ -1,10 +1,11 @@
 # Rebuild WinGet Apps folder layout + generate MaintenanceLauncher fragments
-# Run from repo root: powershell -ExecutionPolicy Bypass -File Tools\Winget\_Rebuild-AppsCatalog.ps1
+# Run from repo root: powershell -ExecutionPolicy Bypass -File Tools\Winget\dev\Rebuild-AppsCatalog.ps1
 
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+. (Join-Path $PSScriptRoot 'Get-ToolkitRoot.ps1')
+$Root = Get-ToolkitRoot
 $AppsRoot = Join-Path $Root 'Tools\Winget\Apps'
-$OutDir = Join-Path $Root 'Tools\Winget\_generated'
+$OutDir = Join-Path $PSScriptRoot '_generated'
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
 # CategoryKey, MenuLabel, Subtitle, FolderName
@@ -412,5 +413,11 @@ $utf8 = New-Object System.Text.UTF8Encoding $false
 [System.IO.File]::WriteAllText((Join-Path $OutDir 'AppsMenuHeader.fragment.bat'), $header, $utf8)
 [System.IO.File]::WriteAllLines((Join-Path $OutDir 'AppsBanner.fragment.bat'), $banner, $utf8)
 
-Write-Host "Generated fragments in Tools\Winget\_generated\"
+$wishlistRows = & (Join-Path $PSScriptRoot 'Emit-WishlistTable.ps1')
+[System.IO.File]::WriteAllText((Join-Path $OutDir 'wishlist-rows.txt'), (($wishlistRows -join "`r`n") + "`r`n"), $utf8)
+
+& (Join-Path $PSScriptRoot 'Emit-PresetExample.ps1')
+
+Write-Host "Generated fragments in Tools\Winget\dev\_generated\"
 Write-Host "Total apps: $total (flat menu, ${AppsMenuCols}x65, $MenuColumns columns)"
+Write-Host "Next: run Merge-LauncherFragments.ps1 (or Rebuild-And-Merge.ps1) to update MaintenanceLauncher.bat"

@@ -1,8 +1,9 @@
-# Merge _generated fragments into MaintenanceLauncher.bat
+# Merge dev\_generated fragments into MaintenanceLauncher.bat
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+. (Join-Path $PSScriptRoot 'Get-ToolkitRoot.ps1')
+$Root = Get-ToolkitRoot
 $launcher = Join-Path $Root 'MaintenanceLauncher.bat'
-$gen = Join-Path $Root 'Tools\Winget\_generated'
+$gen = Join-Path $PSScriptRoot '_generated'
 $utf8 = New-Object System.Text.UTF8Encoding $false
 $lines = [System.IO.File]::ReadAllLines($launcher, $utf8)
 

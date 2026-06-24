@@ -1,6 +1,6 @@
 # Emit wishlist "Already in toolkit" table rows from catalog (read-only)
 $ErrorActionPreference = 'Stop'
-$scriptPath = Join-Path $PSScriptRoot '_Rebuild-AppsCatalog.ps1'
+$scriptPath = Join-Path $PSScriptRoot 'Rebuild-AppsCatalog.ps1'
 $text = Get-Content -LiteralPath $scriptPath -Raw
 $matches = [regex]::Matches($text, "@\{ F='([^']+)'; B='([^']+)';\s+N='([^']+)';?\s+P='([^']+)' \}")
 
