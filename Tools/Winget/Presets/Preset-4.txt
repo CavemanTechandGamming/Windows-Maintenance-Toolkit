@@ -12,7 +12,7 @@ Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-8.bat
 Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-9.bat
 Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-10.bat
 Winget\Apps\Runtimes\Winget-Install-PowerShell-7.bat
-Winget\Apps\Drivers\Winget-Install-SnappyDriverInstaller.bat
+Winget\Apps\Hardware\Winget-Install-SnappyDriverInstaller.bat
 
 # --- 2. Browser (Firefox — you'll run your own DNS anyway) ---
 Winget\Apps\Browsers\Winget-Install-Firefox.bat
@@ -32,7 +32,7 @@ Winget\Apps\Languages\Winget-Install-OpenJDK-25.bat
 Winget\Apps\DevTools\Winget-Install-CMake.bat
 
 # --- 5. Containers on Windows (WSL2 will be fine, you tell yourself) ---
-Winget\Apps\Utility\Winget-Install-DockerDesktop.bat
+Winget\Apps\Virtualization\Winget-Install-DockerDesktop.bat
 
 # --- 6. IDEs — one editor per mood, two Visual Studios for sport ---
 Winget\Apps\DevTools\Winget-Install-VSCode.bat
@@ -53,20 +53,20 @@ Winget\Apps\Media\Winget-Install-VLC.bat
 Winget\Apps\Media\Winget-Install-OBS.bat
 
 # --- 9. Boot media — three tools because trust issues ---
-Winget\Apps\Utility\Winget-Install-Ventoy.bat
-Winget\Apps\Utility\Winget-Install-Rufus.bat
-Winget\Apps\Utility\Winget-Install-BalenaEtcher.bat
+Winget\Apps\SystemTools\Winget-Install-Ventoy.bat
+Winget\Apps\SystemTools\Winget-Install-Rufus.bat
+Winget\Apps\SystemTools\Winget-Install-BalenaEtcher.bat
 
 # --- 10. ISOs, archives, and .yaml at 3 AM ---
-Winget\Apps\Utility\Winget-Install-qBittorrent.bat
-Winget\Apps\Utility\Winget-Install-7Zip.bat
-Winget\Apps\Productivity\Winget-Install-NotepadPlusPlus.bat
+Winget\Apps\SystemTools\Winget-Install-qBittorrent.bat
+Winget\Apps\SystemTools\Winget-Install-7Zip.bat
+Winget\Apps\Office\Winget-Install-NotepadPlusPlus.bat
 
 # --- 11. Desktop ergonomics for too many terminals ---
-Winget\Apps\Utility\Winget-Install-PowerToys.bat
+Winget\Apps\SystemTools\Winget-Install-PowerToys.bat
 
 # --- 12. Alerts, bots, and "did the array finish rebuilding?" ---
 Winget\Apps\Communication\Winget-Install-Telegram.bat
 
 # --- 13. Undo the experiment that seemed clever ---
-Winget\Apps\Utility\Winget-Install-RevoUninstaller.bat
+Winget\Apps\SystemTools\Winget-Install-RevoUninstaller.bat

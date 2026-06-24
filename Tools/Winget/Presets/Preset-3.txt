@@ -12,21 +12,21 @@ Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-9.bat
 Winget\Apps\Runtimes\Winget-Install-DotNet-Runtime-10.bat
 
 # --- 2. Drivers (FPS is a feeling; drivers are the number behind it) ---
-Winget\Apps\Drivers\Winget-Install-SnappyDriverInstaller.bat
+Winget\Apps\Hardware\Winget-Install-SnappyDriverInstaller.bat
 
 # --- 3. Browser (wiki tabs, patch notes, and "is the server down?") ---
 Winget\Apps\Browsers\Winget-Install-Chrome.bat
 
 # --- 4. Launchers (Steam for life, Epic for free games, itch for the weird gems) ---
-Winget\Apps\GameLaunchers\Winget-Install-Steam.bat
-Winget\Apps\GameLaunchers\Winget-Install-EpicGames.bat
-Winget\Apps\GameLaunchers\Winget-Install-Itch.bat
+Winget\Apps\Games\Winget-Install-Steam.bat
+Winget\Apps\Games\Winget-Install-EpicGames.bat
+Winget\Apps\Games\Winget-Install-Itch.bat
 
 # --- 5. Voice chat (where the squad goes when in-game audio dies) ---
 Winget\Apps\Communication\Winget-Install-Discord.bat
 
 # --- 6. GPU monitoring (is it lag or thermal throttle? now you'll know) ---
-Winget\Apps\Utility\Winget-Install-MSIAfterburner.bat
+Winget\Apps\Hardware\Winget-Install-MSIAfterburner.bat
 
 # --- 7. Recording & streaming (clip it or they're calling cap) ---
 Winget\Apps\Media\Winget-Install-OBS.bat
@@ -36,7 +36,7 @@ Winget\Apps\Media\Winget-Install-HandBrake.bat
 Winget\Apps\Media\Winget-Install-VLC.bat
 
 # --- 9. Mods & configs (extract, tweak the .ini, pretend you read the readme) ---
-Winget\Apps\Utility\Winget-Install-7Zip.bat
-Winget\Apps\Utility\Winget-Install-WinRAR.bat
-Winget\Apps\Utility\Winget-Install-qBittorrent.bat
-Winget\Apps\Productivity\Winget-Install-NotepadPlusPlus.bat
+Winget\Apps\SystemTools\Winget-Install-7Zip.bat
+Winget\Apps\SystemTools\Winget-Install-WinRAR.bat
+Winget\Apps\SystemTools\Winget-Install-qBittorrent.bat
+Winget\Apps\Office\Winget-Install-NotepadPlusPlus.bat

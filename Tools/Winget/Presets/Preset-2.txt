@@ -16,25 +16,25 @@ Winget\Apps\Runtimes\Winget-Install-PowerShell-7.bat
 Winget\Apps\Browsers\Winget-Install-Chrome.bat
 
 # --- 3. Debloat (McAfee trials and Candy Crush are not features) ---
-Winget\Apps\Utility\Winget-Install-BulkCrapUninstaller.bat
-Winget\Apps\Utility\Winget-Install-RevoUninstaller.bat
+Winget\Apps\SystemTools\Winget-Install-BulkCrapUninstaller.bat
+Winget\Apps\SystemTools\Winget-Install-RevoUninstaller.bat
 
 # --- 4. Drivers (after Windows Update — yes, really after) ---
-Winget\Apps\Drivers\Winget-Install-SnappyDriverInstaller.bat
+Winget\Apps\Hardware\Winget-Install-SnappyDriverInstaller.bat
 
 # --- 5. Office & documents (LibreOffice saves the "where's Word?" call) ---
-Winget\Apps\Productivity\Winget-Install-LibreOffice.bat
-Winget\Apps\Productivity\Winget-Install-NotepadPlusPlus.bat
+Winget\Apps\Office\Winget-Install-LibreOffice.bat
+Winget\Apps\Office\Winget-Install-NotepadPlusPlus.bat
 
 # --- 6. Media (one player that plays everything — no codec pack hunt) ---
 Winget\Apps\Media\Winget-Install-VLC.bat
 
 # --- 7. File tools (they will download a .zip and a .rar same day) ---
-Winget\Apps\Utility\Winget-Install-7Zip.bat
-Winget\Apps\Utility\Winget-Install-WinRAR.bat
+Winget\Apps\SystemTools\Winget-Install-7Zip.bat
+Winget\Apps\SystemTools\Winget-Install-WinRAR.bat
 
 # --- 8. Windows power tools (FancyZones beats explaining snap layouts) ---
-Winget\Apps\Utility\Winget-Install-PowerToys.bat
+Winget\Apps\SystemTools\Winget-Install-PowerToys.bat
 
 # --- 9. Remote-fix toolkit (for when you're on the phone walking them through it) ---
 Winget\Apps\DevTools\Winget-Install-Git.bat

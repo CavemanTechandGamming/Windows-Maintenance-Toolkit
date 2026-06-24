@@ -17,7 +17,7 @@ The project is designed for practical bench work: clear menus, administrator ele
 | **Cleanup** | Temp files, Windows Update cache, Recycle Bin, WinSxS component store cleanup |
 | **Network** | DNS flush/renew/register, ARP cache clear, Winsock and TCP/IP stack reset, IP configuration display |
 | **Sequences** | One-key repair, cleanup, network refresh, and full maintenance chains |
-| **WinGet manager** | Install or repair WinGet, list/search/upgrade packages, browse 55 curated install scripts |
+| **WinGet manager** | Install or repair WinGet, list/search/upgrade packages, browse 102 curated install scripts |
 | **Preset bundles** | Four editable text-based presets for batch software deployment |
 | **Logging** | Per-session maintenance log with computer name, user, and timestamps |
 
@@ -81,7 +81,7 @@ Access from the main menu with **`W`**.
 | `1`–`3` | Install, verify/update, or reinstall WinGet |
 | `4`–`7` | List upgradable/installed packages, search, upgrade all |
 | `P` | Preset bundles (install or edit Presets 1–4) |
-| `I` | Install Apps — categorized menu of 55 WinGet install scripts |
+| `I` | Install Apps — 13 categories, 102 WinGet install scripts |
 | `L` | Open WinGet diagnostic log folder |
 | `B` / `Q` | Back or quit |
 
@@ -117,13 +117,16 @@ Tools/
         ├── Browsers/
         ├── Communication/
         ├── DevTools/
-        ├── Drivers/
-        ├── GameLaunchers/
+        ├── Games/
+        ├── Hardware/
         ├── Languages/
         ├── Media/
-        ├── Productivity/
+        ├── NetworkRemote/
+        ├── Office/
         ├── Runtimes/
-        └── Utility/
+        ├── Security/
+        ├── SystemTools/
+        └── Virtualization/
 Logs/                              # Created at runtime (not committed)
 ```
 
@@ -141,7 +144,7 @@ WinGet operations write start/finish markers only; live WinGet output is shown i
 
 - **Single elevation:** Administrator rights are requested once at startup; child scripts inherit elevation.
 - **Sequences:** Multi-step runs set `MAINT_NO_PAUSE=1` so steps execute without intermediate prompts.
-- **Console layout:** Menus use a fixed 100×65 console with locked buffer height for consistent display.
+- **Console layout:** Most menus use a fixed 100×65 console with locked buffer height. Install Apps uses a category hub plus submenus so everything fits without a tall console.
 
 ## Disclaimer
 
